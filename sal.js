@@ -1,1 +1,1 @@
-console.log([1, 2, 3].concat(4));
+console.log(new Array(4).fill(false));
