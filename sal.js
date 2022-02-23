@@ -1,4 +1,6 @@
-let r = "robi";
-let v = 12;
+let style = {
+  age: 18,
+};
 
-console.log(r + v);
+style = { ...style, age: 21 };
+console.log(style);

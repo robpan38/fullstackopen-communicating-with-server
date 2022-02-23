@@ -2,12 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
 import Note from "./components/Note";
+import Notification from "./components/Notification";
+import Footer from "./components/Footer";
 import noteService from "./services/notes";
 
 function App(props) {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState("a new note...");
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     noteService.getAll().then((initialNotes) => {
@@ -45,7 +48,14 @@ function App(props) {
         setNotes(notes.map((note) => (note.id === id ? updatedNote : note)));
       })
       .catch((error) => {
-        alert(`the note ${note.content} was already deleted from the server`);
+        setErrorMessage(
+          `the note '${note.content}' was already deleted from the server`
+        );
+
+        setTimeout(() => {
+          setErrorMessage(null);
+        }, 5000);
+
         setNotes(notes.filter((note) => note.id !== id));
       });
   };
@@ -53,6 +63,7 @@ function App(props) {
   return (
     <div className="App">
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? "important" : "all"}
@@ -71,6 +82,7 @@ function App(props) {
         <input value={newNote} onChange={handleNoteChange}></input>
         <button type="submit">save</button>
       </form>
+      <Footer />
     </div>
   );
 }
