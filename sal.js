@@ -1,1 +1,4 @@
-console.log(new Array(4).fill(false));
+let r = "robi";
+let v = 12;
+
+console.log(r + v);
